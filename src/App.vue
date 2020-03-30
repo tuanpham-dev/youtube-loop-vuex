@@ -1,28 +1,47 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Header></Header>
+    <div class="main">
+      <div class="container">
+        <ul v-if="hasVideo" class="video-list">
+          <li v-for="(video, index) in videos" :key="video.id" class="video-item">
+            <Video :video="video" :index="index"></Video>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Header from './components/header/Header'
+import Video from './components/video/Video'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Header,
+    Video
+  },
+  computed: {
+    hasVideo () {
+      return this.$store.state.videos.length > 0
+    },
+    videos () {
+      return this.$store.state.videos
+    }
   }
 }
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  .video-list {
+    list-style: none;
+    padding: 0;
+    margin: 3rem auto;
+  }
+
+  .video-item {
+    text-align: center;
+  }
 </style>
