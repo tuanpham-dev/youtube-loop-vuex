@@ -85,7 +85,7 @@ export default new Vuex.Store({
     },
     playPreviousVideo ({ commit, state }) {
       let playingVideoIndex = -1
-      const index = state.videos.findIndex(video => video.id === state.playingVideo)
+      const index = state.videos.findIndex(video => video.id === state.playingVideo.id)
 
       if (index === 0) {
         playingVideoIndex = state.videos.length - 1
