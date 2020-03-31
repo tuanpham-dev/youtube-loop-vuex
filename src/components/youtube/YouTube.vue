@@ -13,6 +13,9 @@ export default {
     this.player = loadYouTubeAPI().then(YT => {
       this.playerInstance = new YT.Player(this.$el, {
         videoId: this.videoId,
+        playerVars: {
+          html5: 1
+        },
         events: {
           onReady: () => this.$emit('ready', this.playerInstance),
           onStateChange: (event) => {
