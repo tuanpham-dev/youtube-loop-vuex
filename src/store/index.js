@@ -4,8 +4,6 @@ import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 
-let nextId = 0
-
 export default new Vuex.Store({
   plugins: [
     createPersistedState()
@@ -43,9 +41,10 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    addVideo ({ commit }, { youtubeId, volume = -1, range = [-1, -1] }) {
+    addVideo ({ commit, state }, { youtubeId, volume = -1, range = [-1, -1] }) {
+      const maxId = Math.max.apply(Math, state.videos.map(video => video.id))
       const video = {
-        id: nextId++,
+        id: maxId + 1,
         youtubeId,
         volume,
         range
