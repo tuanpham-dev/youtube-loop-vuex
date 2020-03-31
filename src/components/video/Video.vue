@@ -35,7 +35,8 @@ export default {
     return {
       player: null,
       videoLoaded: false,
-      duration: 0
+      duration: 0,
+      title: ''
     }
   },
   computed: {
@@ -96,15 +97,14 @@ export default {
       } else {
         this.player = player
         this.duration = duration
+        this.title = this.player.getVideoData().title
 
         if (this.video.volume === -1 || this.video.range[0] === -1 || this.video.range[1] === -1) {
-          this.editVideo({ index: this.index, volume: player.getVolume(), range: [0, duration] })
+          this.editVideo({ index: this.index, volume: this.player.getVolume(), range: [0, duration] })
         }
 
         if (this.isPlaying) {
-          this.player.setVolume(this.video.volume)
-          this.player.seekTo(this.video.range[0])
-          this.player.playVideo()
+          this.play()
         }
 
         this.videoLoaded = true
@@ -120,6 +120,13 @@ export default {
       'setVideoVolume',
       'setVideoRange'
     ]),
+    play () {
+      this.player.setVolume(this.video.volume)
+      this.player.seekTo(this.video.range[0], true)
+      this.player.playVideo()
+
+      document.title = this.title + ' - YouTube Loop in Vuex'
+    },
     onPlaying () {
       clearInterval(this.interval)
       this.interval = setInterval(this.trackStatus, 100)
@@ -151,11 +158,10 @@ export default {
     playingVideo (value) {
       if (this.player) {
         if (this.isPlaying) {
-          this.player.setVolume(this.video.volume)
-          this.player.seekTo(this.video.range[0])
-          this.player.playVideo()
+          this.play()
         } else {
           this.player.pauseVideo()
+          document.title = 'YouTube Loop in Vuex'
         }
       }
     }
