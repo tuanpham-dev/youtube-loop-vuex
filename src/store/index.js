@@ -42,7 +42,7 @@ export default new Vuex.Store({
   },
   actions: {
     addVideo ({ commit, state }, { youtubeId, volume = -1, range = [-1, -1] }) {
-      const maxId = Math.max.apply(Math, state.videos.map(video => video.id))
+      const maxId = Math.max(...state.videos.map(video => video.id), 0)
       const video = {
         id: maxId + 1,
         youtubeId,
