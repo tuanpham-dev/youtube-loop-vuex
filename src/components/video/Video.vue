@@ -131,7 +131,9 @@ export default {
       clearInterval(this.interval)
       this.interval = setInterval(this.trackStatus, 100)
 
-      this.playVideo(this.index)
+      if (!this.isPlaying) {
+        this.playVideo(this.index)
+      }
     },
     onPaused () {
       clearInterval(this.interval)
